@@ -3,6 +3,7 @@
 
 void ingame(int broad[]);
 void info();
-void menu();
+void gameMenu(char name[]);
+void loginMenu();
 
 #endif

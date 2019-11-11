@@ -6,20 +6,15 @@
 #include <unistd.h> // for close
 #include <netdb.h>
 #include <string.h>
+#include "UI.h"
+
+#define clear() printf("\033[H\033[J")
 
 #define MAX 80
 #define SA struct sockaddr
 
 int loginTime = 3;
-
-void printfMenu()
-{
-  printf("USER MANAGEMENT PROGRAM\n");
-  printf("-----------------------------------\n");
-  printf("1. Sign in\n");
-  printf("2. Sign out\n");
-  printf("Your choice (1-2, other to quit):\n");
-}
+char name[20] = "";
 
 void login(int sockfd)
 {
@@ -33,6 +28,7 @@ void login(int sockfd)
     n = 1;
     while ((buff[n++] = getchar()) != '\n')
       ;
+
     strcpy(username, buff);
     buff[n - 1] = '~';
     printf("Enter password : ");
@@ -49,6 +45,10 @@ void login(int sockfd)
         loginTime--;
       else
       {
+        strcpy(name, username);
+        for (int i = 0; i <= strlen(name); i++)
+          name[i] = name[i + 1];
+        name[strlen(name) - 1] = '\0';
         loginTime = 4;
       }
 
@@ -127,14 +127,53 @@ int main(int argc, char *argv[])
   else
     printf("connected to the server..\n");
 
-  char c;
+  char c, d;
   int check = 0;
 
   while (1)
   {
     if (loginTime >= -1)
     {
-      printfMenu();
+      // clear();
+      if (loginTime == 4)
+      {
+        while (1)
+        {
+          clear();
+          gameMenu(name);
+          scanf("%c", &d);
+
+          if (d == '1')
+          {
+            // scanf("%*c");
+            // login(sockfd);
+          }
+          if (d == '2')
+          {
+            // scanf("%*c");
+            // logout(sockfd);
+          }
+          if (d == '3')
+          {
+            // scanf("%*c");
+            // logout(sockfd);
+          }
+          if (d == '4')
+          {
+            // scanf("%*c");
+            // logout(sockfd);
+          }
+          if (d == 'q')
+          {
+            scanf("%*c");
+            logout(sockfd);
+            break;
+          }
+        }
+      }
+
+      clear();
+      loginMenu();
       scanf("%c", &c);
 
       if (c == '1')

@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#define clear() printf("\033[H\033[J")
-
 void red()
 {
   printf("\033[1;31m");
@@ -22,14 +20,15 @@ void reset()
   printf("\033[0m");
 }
 
-void nav()
+void nav(char name[])
 {
   printf("+-----------------------------------------------------------+\n");
-  printf("| ");
   blue();
-  printf("TicTacToe 1.0-beta");
+  printf("  TicTacToe 1.0-beta");
   reset();
-  printf("                                        |\n");
+  yellow();
+  printf("                                 %s\n", name);
+  reset();
   printf("+-----------------------------+-----------------------------+\n");
 }
 
@@ -111,14 +110,14 @@ void score()
 
 void ingame(int broadGame[])
 {
-  nav();
+  nav("");
   broad(broadGame);
   score();
 }
 
-void menu()
+void gameMenu(char name[])
 {
-  nav();
+  nav(name);
   printf("\n");
   printf("    [ ");
   red();
@@ -135,7 +134,7 @@ void menu()
 
 void info()
 {
-  nav();
+  nav("");
   printf("Voi niem dam me cac game co dien Studio \033[1;34mLao Hac 1977\033[0m dem \n");
   printf("lai cho cac ban trai nghiem choi game \033[1;34mTicTacToe\033[0m chay tren \n");
   printf("he dieu hanh Linux voi giao dien than thien de choi. Ban   \n");
@@ -147,6 +146,21 @@ void info()
   printf("TicTacToe beta-1.0\n\n");
   reset();
   printf("Press \033[1;31menter\033[0m de quay ve man hinh chinh\n");
+}
+
+void loginMenu()
+{
+  nav("");
+  printf("\n");
+  printf("    [ ");
+  red();
+  printf("USER MANAGEMENT");
+  reset();
+  printf(" ]\n\n");
+
+  printf("    (\033[1;31m1\033[0m) Dang nhap\n");
+  printf("    (\033[1;31m2\033[0m) Dang ki\n\n");
+  printf("    (1-2, other to \033[1;34mquit\033[0m):\n");
 }
 
 // int main()

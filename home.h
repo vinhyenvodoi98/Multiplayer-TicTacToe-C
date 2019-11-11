@@ -3,5 +3,6 @@
 
 char *_signin(char username[20], char password[20]);
 char *_signout(char username[20]);
+char *_lockAccount(char username[20]);
 
 #endif
