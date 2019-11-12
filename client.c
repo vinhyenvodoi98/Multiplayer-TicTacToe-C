@@ -7,6 +7,7 @@
 #include <netdb.h>
 #include <string.h>
 #include "UI.h"
+#include "gameClient.h"
 
 #define clear() printf("\033[H\033[J")
 
@@ -67,6 +68,41 @@ void login(int sockfd)
   }
 }
 
+void signup(int sockfd)
+{
+  char buff[MAX], username[MAX];
+  int n;
+  bzero(buff, sizeof(buff));
+
+  printf("Enter username : ");
+  strcat(buff, "4"); //set for logout
+  n = 1;
+  while ((buff[n++] = getchar()) != '\n')
+    ;
+
+  strcpy(username, buff);
+  buff[n - 1] = '~';
+  printf("Enter password : ");
+  while ((buff[n++] = getchar()) != '\n')
+    ;
+
+  write(sockfd, buff, sizeof(buff));
+  bzero(buff, sizeof(buff));
+
+  read(sockfd, buff, sizeof(buff));
+
+  if (strcmp(buff, "Signup successfully") == 0)
+  {
+    strcpy(name, username);
+    for (int i = 0; i <= strlen(name); i++)
+      name[i] = name[i + 1];
+    name[strlen(name) - 1] = '\0';
+    loginTime = 4;
+  }
+
+  printf("From Server : %s\n", buff);
+}
+
 void logout(int sockfd)
 {
   char buff[MAX];
@@ -84,6 +120,45 @@ void logout(int sockfd)
   if (strcmp(buff, "Goodbye") == 0)
     loginTime = 3;
   printf("From Server : %s\n", buff);
+}
+
+void gameScreen(int sockfd)
+{
+  char d;
+  while (1)
+  {
+    clear();
+    gameMenu(name);
+    scanf("%c", &d);
+
+    if (d == '1')
+    {
+      // scanf("%*c");
+      // login(sockfd);
+    }
+    if (d == '2')
+    {
+      // scanf("%*c");
+      // logout(sockfd);
+    }
+    if (d == '3')
+    {
+      // scanf("%*c");
+      // logout(sockfd);
+    }
+    if (d == '4')
+    {
+      scanf("%*c");
+      clear();
+      info(name);
+    }
+    if (d == 'q')
+    {
+      scanf("%*c");
+      logout(sockfd);
+      break;
+    }
+  }
 }
 
 int main(int argc, char *argv[])
@@ -134,43 +209,8 @@ int main(int argc, char *argv[])
   {
     if (loginTime >= -1)
     {
-      // clear();
       if (loginTime == 4)
-      {
-        while (1)
-        {
-          clear();
-          gameMenu(name);
-          scanf("%c", &d);
-
-          if (d == '1')
-          {
-            // scanf("%*c");
-            // login(sockfd);
-          }
-          if (d == '2')
-          {
-            // scanf("%*c");
-            // logout(sockfd);
-          }
-          if (d == '3')
-          {
-            // scanf("%*c");
-            // logout(sockfd);
-          }
-          if (d == '4')
-          {
-            // scanf("%*c");
-            // logout(sockfd);
-          }
-          if (d == 'q')
-          {
-            scanf("%*c");
-            logout(sockfd);
-            break;
-          }
-        }
-      }
+        gameScreen(sockfd);
 
       clear();
       loginMenu();
@@ -184,7 +224,7 @@ int main(int argc, char *argv[])
       if (c == '2')
       {
         scanf("%*c");
-        logout(sockfd);
+        signup(sockfd);
       }
       if (c != '2' && c != '1')
         break;

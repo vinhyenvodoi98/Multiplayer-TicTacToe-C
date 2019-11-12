@@ -35,6 +35,7 @@ void readFile()
 void writeFile()
 {
   node *temp = first;
+  remove("account.txt");
   f = fopen("account.txt", "w");
 
   while (temp)

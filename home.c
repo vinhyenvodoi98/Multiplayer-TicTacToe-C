@@ -31,20 +31,28 @@ char *_signin(char username[20], char password[20])
   }
 }
 
-char *_lockAccount(char username[20])
+char *_signup(char username[20], char password[20])
 {
-  account = getAccount(username);
-  account->status = 0;
-  writeFile();
-  return ("Account is blocked");
+  if (checkAccountExist(username) == 1)
+  {
+    return ("Username is already exits");
+  }
+  else
+  {
+    addToLinkList(username, password, 1);
+    account = getAccount(username);
+    account->isLogin = 1;
+    account->loginTimeLeft = 3;
+    writeFile();
+    return ("Signup successfully");
+  }
 }
 
 char *_signout(char username[20])
 {
-
-  if (checkAccountExist(username) == 1)
+  if (checkAccountExist(username))
   {
-    if (strcmp(account->username, username) == 0)
+    if (!strcmp(account->username, username))
     {
       account = NULL;
       return ("Goodbye");
@@ -58,4 +66,12 @@ char *_signout(char username[20])
   {
     return ("Cannot find account");
   }
+}
+
+char *_lockAccount(char username[20])
+{
+  account = getAccount(username);
+  account->status = 0;
+  writeFile();
+  return ("Account is blocked");
 }

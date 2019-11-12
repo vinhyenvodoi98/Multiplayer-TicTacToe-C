@@ -132,9 +132,10 @@ void gameMenu(char name[])
   printf("    (\033[1;31mq\033[0m) Quit\n");
 }
 
-void info()
+void info(char name[])
 {
-  nav("");
+  char a;
+  nav(name);
   printf("Voi niem dam me cac game co dien Studio \033[1;34mLao Hac 1977\033[0m dem \n");
   printf("lai cho cac ban trai nghiem choi game \033[1;34mTicTacToe\033[0m chay tren \n");
   printf("he dieu hanh Linux voi giao dien than thien de choi. Ban   \n");
@@ -146,6 +147,7 @@ void info()
   printf("TicTacToe beta-1.0\n\n");
   reset();
   printf("Press \033[1;31menter\033[0m de quay ve man hinh chinh\n");
+  scanf("%c", &a);
 }
 
 void loginMenu()

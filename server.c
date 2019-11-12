@@ -32,7 +32,7 @@ int msg(int sockfd)
   if (read(sockfd, buffer, sizeof(buffer)) != 0)
   {
     printf("From client: %s To client : ", buffer);
-    if (buffer[0] == '1')
+    if (buffer[0] == '1') //for login
     {
       for (i = 0; i < strlen(buffer); i++)
       {
@@ -52,10 +52,9 @@ int msg(int sockfd)
       strcat(msg, _signin(username, password));
       msg[strlen(msg)] = '\0';
       printf("%s\n", msg);
-
-      // write(sockfd, msg, sizeof(msg));
     }
-    else if (buffer[0] == '2')
+
+    else if (buffer[0] == '2') //for logout
     {
       for (i = 0; i < strlen(buffer); i++)
         username[i] = buffer[i + 1];
@@ -63,13 +62,36 @@ int msg(int sockfd)
       username[strlen(username) - 1] = '\0';
       strcat(msg, _signout(username));
     }
-    else if (buffer[0] == '3')
+
+    else if (buffer[0] == '3') //for lockAccout
     {
       for (i = 0; i < strlen(buffer); i++)
         username[i] = buffer[i + 1];
 
       username[strlen(username) - 1] = '\0';
       strcat(msg, _lockAccount(username));
+    }
+
+    else if (buffer[0] == '4') // for signup
+    {
+      for (i = 0; i < strlen(buffer); i++)
+      {
+        if (buffer[i + 1] == '~')
+          break;
+        username[i] = buffer[i + 1];
+      }
+
+      for (j = 0; j < strlen(buffer); j++)
+      {
+        if (buffer[i] == '\n')
+          break;
+        password[j] = buffer[i + 2];
+        i++;
+      }
+      password[j - 2] = '\0';
+      strcat(msg, _signup(username, password));
+      msg[strlen(msg)] = '\0';
+      printf("%s\n", msg);
     }
 
     write(sockfd, msg, sizeof(msg));
@@ -161,9 +183,10 @@ int main(int argc, char *argv[])
   else
     printf("Server listening..\n");
 
+  readFile();
+
   while (1)
   {
-    readFile();
     //clear the socket set
     FD_ZERO(&readfds);
 

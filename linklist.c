@@ -78,6 +78,7 @@ int checkAccountExist(char username[])
     }
     temp = temp->next;
   }
+
   return isExist;
 }
 
