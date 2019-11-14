@@ -8,6 +8,7 @@
 #include <string.h>
 #include "UI.h"
 #include "gameClient.h"
+#include "clientP2P.h"
 
 #define clear() printf("\033[H\033[J")
 
@@ -122,6 +123,13 @@ void logout(int sockfd)
   printf("From Server : %s\n", buff);
 }
 
+void normalgame()
+{
+  int a;
+  printf("%s", genPort());
+  scanf("%d", &a);
+}
+
 void gameScreen(int sockfd)
 {
   char d;
@@ -133,17 +141,17 @@ void gameScreen(int sockfd)
 
     if (d == '1')
     {
-      // scanf("%*c");
-      // login(sockfd);
+      scanf("%*c");
+      normalgame();
     }
     if (d == '2')
     {
-      // scanf("%*c");
-      // logout(sockfd);
+      scanf("%*c");
+      // normalgame(sockfd);
     }
     if (d == '3')
     {
-      // scanf("%*c");
+      scanf("%*c");
       // logout(sockfd);
     }
     if (d == '4')
