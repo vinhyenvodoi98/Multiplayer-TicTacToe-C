@@ -9,6 +9,8 @@
 #include "UI.h"
 #include "gameClient.h"
 #include "clientP2P.h"
+#include "clientPeer1.h"
+#include "clientPeer2.h"
 
 #define clear() printf("\033[H\033[J")
 
@@ -123,11 +125,39 @@ void logout(int sockfd)
   printf("From Server : %s\n", buff);
 }
 
-void normalgame()
+void normalgame(int sockfd)
 {
-  int a;
-  printf("%s", genPort());
-  scanf("%d", &a);
+  int a, iPort;
+  char buff[MAX], *ip_port, *ip, *cPort;
+  bzero(&buff, sizeof(buff));
+
+  ip_port = (char *)malloc(80 * sizeof(char));
+  ip = (char *)malloc(20 * sizeof(char));
+  cPort = (char *)malloc(10 * sizeof(char));
+
+  strcpy(ip_port, genPort());
+  strcat(buff, "5");
+  strcat(buff, ip_port);
+
+  write(sockfd, buff, sizeof(buff));
+
+  bzero(buff, sizeof(buff));
+
+  read(sockfd, buff, sizeof(buff));
+  if (strcmp(buff, "you are host game") == 0)
+  {
+    strcpy(ip, return_ip(ip_port));
+    strcpy(cPort, return_port(ip_port));
+    iPort = atoi(cPort);
+    startP2P("127.0.0.1", iPort);
+  }
+  else
+  {
+    strcat(ip, return_ip(buff));
+    strcat(cPort, return_port(buff));
+    iPort = atoi(cPort);
+    connectP2P("127.0.0.1", iPort);
+  }
 }
 
 void gameScreen(int sockfd)
@@ -142,7 +172,7 @@ void gameScreen(int sockfd)
     if (d == '1')
     {
       scanf("%*c");
-      normalgame();
+      normalgame(sockfd);
     }
     if (d == '2')
     {

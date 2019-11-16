@@ -16,6 +16,8 @@
 #define MAX 80
 #define SA struct sockaddr
 
+char currentGame[MAX];
+
 int msg(int sockfd)
 {
   char buffer[MAX], number[MAX], charactor[MAX], msg[MAX], username[MAX], password[MAX];
@@ -92,6 +94,23 @@ int msg(int sockfd)
       strcat(msg, _signup(username, password));
       msg[strlen(msg)] = '\0';
       printf("%s\n", msg);
+    }
+
+    else if (buffer[0] == '5') // for create normal game
+    {
+      for (i = 0; i < strlen(buffer); i++)
+        buffer[i] = buffer[i + 1];
+
+      if (strlen(currentGame) == 0)
+      {
+        strcat(currentGame, buffer);
+        strcat(msg, "you are host game");
+      }
+      else
+      {
+        strcat(msg, currentGame);
+        bzero(currentGame, MAX);
+      }
     }
 
     write(sockfd, msg, sizeof(msg));

@@ -63,7 +63,7 @@ char *genPort()
     exit(0);
   }
   else
-    printf("Socket successfully created..\n");
+    printf("Create ip\n");
 
   bzero(&servaddr, sizeof(servaddr));
   // assign IP, PORT
@@ -78,7 +78,7 @@ char *genPort()
     exit(0);
   }
   else
-    printf("Socket successfully binded..\n");
+    printf("Create port..\n");
 
   socklen_t len = sizeof(servaddr);
   if (getsockname(sockfd, (struct sockaddr *)&servaddr, &len) == -1)
@@ -108,93 +108,37 @@ char *genPort()
   return (IPbuffer);
 }
 
-void startP2P(int PORT)
+char *return_ip(char ip_port[])
 {
-  int sockfd, connfd, len;
-  struct sockaddr_in servaddr, cli;
-
-  // socket create and verification
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd == -1)
+  char *IP;
+  IP = (char *)malloc(80 * sizeof(char));
+  for (int i = 0; i < strlen(ip_port); i++)
   {
-    printf("socket creation failed...\n");
-    exit(0);
+    IP[i] = ip_port[i];
+    if (ip_port[i] == '~')
+    {
+      IP[i] = '\0';
+      break;
+    }
   }
-  else
-    printf("Socket successfully created..\n");
-  bzero(&servaddr, sizeof(servaddr));
-
-  // assign IP, PORT
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = INADDR_ANY;
-  servaddr.sin_port = PORT;
-
-  // Binding newly created socket to given IP and verification
-  if ((bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr))) != 0)
-  {
-    printf("socket bind failed...\n");
-    exit(0);
-  }
-  else
-    printf("Socket successfully binded..\n");
-
-  // Now server is ready to listen and verification
-  if ((listen(sockfd, 5)) != 0)
-  {
-    printf("Listen failed...\n");
-    exit(0);
-  }
-  else
-    printf("Server listening..\n");
-
-  len = sizeof(cli);
-
-  // Accept the data packet from client and verification
-  connfd = accept(sockfd, (SA *)&cli, &len);
-  if (connfd < 0)
-  {
-    printf("server acccept failed...\n");
-    exit(0);
-  }
-  else
-    printf("server acccept the client...\n");
-
-  //todo
-  printf("%d", servaddr.sin_port);
-  // After chatting close the socket
-  close(sockfd);
+  return (IP);
 }
 
-void connectP2P(char ip[], int PORT)
+char *return_port(char ip_port[])
 {
-  int sockfd, connfd;
-  struct sockaddr_in servaddr, cli;
-  char ipAddress[15];
-
-  // socket create and varification
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd == -1)
+  char *Post;
+  Post = (char *)malloc(80 * sizeof(char));
+  int check = 0, j = 0;
+  for (int i = 0; i < strlen(ip_port); i++)
   {
-    printf("socket creation failed...\n");
-    exit(0);
+    if (check == 1)
+    {
+      Post[j] = ip_port[i];
+      j++;
+    }
+    if (ip_port[i] == '~')
+      check = 1;
   }
-  else
-    printf("Socket successfully created..\n");
-  bzero(&servaddr, sizeof(servaddr));
 
-  // assign IP, PORT
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = inet_addr(ip);
-  servaddr.sin_port = htons(PORT);
-
-  // connect the client socket to server socket
-  if (connect(sockfd, (SA *)&servaddr, sizeof(servaddr)) != 0)
-  {
-    printf("connection with the server failed...\n");
-    exit(0);
-  }
-  else
-    printf("connected to the server..\n");
-
-  // todo Do something with sockfd
+  return (Post);
 }
