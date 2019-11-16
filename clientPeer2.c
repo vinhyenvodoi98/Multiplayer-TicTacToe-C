@@ -49,7 +49,7 @@ void connectP2P(char ip[], int PORT)
     exit(0);
   }
   else
-    printf("Socket peer2 successfully created..\n");
+    printf("Socket successfully created..\n");
   bzero(&servaddr, sizeof(servaddr));
 
   // assign IP, PORT
@@ -68,4 +68,5 @@ void connectP2P(char ip[], int PORT)
 
   // function for chat
   joinPerson(sockfd);
+  close(sockfd);
 }

@@ -57,7 +57,7 @@ void startP2P(char ip[], int PORT)
     exit(0);
   }
   else
-    printf("Socket peer1 successfully created..\n");
+    printf("Socket successfully created..\n");
   bzero(&servaddr, sizeof(servaddr));
 
   // assign IP, PORT
@@ -94,7 +94,8 @@ void startP2P(char ip[], int PORT)
   else
     printf("server acccept the client...\n");
 
-  hostPerson(sockfd);
+  // Function for chatting between client and server
+  hostPerson(connfd);
 
   // After chatting close the socket
   close(sockfd);
