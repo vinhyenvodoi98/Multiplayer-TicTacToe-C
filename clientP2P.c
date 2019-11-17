@@ -9,6 +9,7 @@
 #include <fcntl.h>  // for open
 #include <unistd.h> // for close
 #include <sys/types.h>
+#include "clientP2P.h"
 
 #define MAX 80
 #define SA struct sockaddr
@@ -141,4 +142,58 @@ char *return_port(char ip_port[])
   }
 
   return (Post);
+}
+
+int isPositionExits(char location[], int *pointBroad)
+{
+  if (strcmp(location, "a1") == 0)
+    if (pointBroad[0] != 0)
+      return 1;
+  if (strcmp(location, "a2") == 0)
+    if (pointBroad[1] != 0)
+      return 1;
+  if (strcmp(location, "a3") == 0)
+    if (pointBroad[2] != 0)
+      return 1;
+  if (strcmp(location, "b1") == 0)
+    if (pointBroad[3] != 0)
+      return 1;
+  if (strcmp(location, "b2") == 0)
+    if (pointBroad[4] != 0)
+      return 1;
+  if (strcmp(location, "b3") == 0)
+    if (pointBroad[5] != 0)
+      return 1;
+  if (strcmp(location, "c1") == 0)
+    if (pointBroad[6] != 0)
+      return 1;
+  if (strcmp(location, "c2") == 0)
+    if (pointBroad[7] != 0)
+      return 1;
+  if (strcmp(location, "c3") == 0)
+    if (pointBroad[8] != 0)
+      return 1;
+  return 0;
+}
+
+void updateBroad(char location[], int player, int *pointBroad)
+{
+  if (strcmp(location, "a1") == 0)
+    pointBroad[0] = player;
+  if (strcmp(location, "a2") == 0)
+    pointBroad[1] = player;
+  if (strcmp(location, "a3") == 0)
+    pointBroad[2] = player;
+  if (strcmp(location, "b1") == 0)
+    pointBroad[3] = player;
+  if (strcmp(location, "b2") == 0)
+    pointBroad[4] = player;
+  if (strcmp(location, "b3") == 0)
+    pointBroad[5] = player;
+  if (strcmp(location, "c1") == 0)
+    pointBroad[6] = player;
+  if (strcmp(location, "c2") == 0)
+    pointBroad[7] = player;
+  if (strcmp(location, "c3") == 0)
+    pointBroad[8] = player;
 }

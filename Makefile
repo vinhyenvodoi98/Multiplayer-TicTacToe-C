@@ -8,4 +8,4 @@ clientPeer1 := "clientPeer1.c"
 clientPeer2 := "clientPeer2.c"
 
 run:
-	@gcc -o server server.c $(serverService) $(file) $(linklist) && gcc -o client client.c $(UI) $(gameClient) $(clientPeer1) $(clientPeer2) $(clientP2P)
+	@gcc -o server server.c $(serverService) $(file) $(linklist) && gcc -o client client.c $(UI) $(gameClient) $(clientP2P) $(clientPeer1) $(clientPeer2)

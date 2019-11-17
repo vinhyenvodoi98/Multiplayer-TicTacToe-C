@@ -12,9 +12,14 @@
 
 #define MAX 80
 #define SA struct sockaddr
+#define clear() printf("\033[H\033[J")
 
 void hostPerson(int sockfd)
 {
+  pointBroad = (int *)calloc(9, sizeof(int));
+  for (int i = 0; i < 9; i++)
+    pointBroad[i] = 0;
+
   char buff[MAX];
   int n;
   // infinite loop for chat
@@ -22,25 +27,34 @@ void hostPerson(int sockfd)
   {
     bzero(buff, MAX);
 
+    ingame(pointBroad);
     // read the message from client and copy it in buffer
     read(sockfd, buff, sizeof(buff));
     // print buffer which contains the client contents
-    printf("From client: %s\t To client : ", buff);
-    bzero(buff, MAX);
-    n = 0;
+
+    updateBroad(buff, 1, pointBroad);
+    clear();
+    ingame(pointBroad);
+
     // copy server message in the buffer
-    while ((buff[n++] = getchar()) != '\n')
-      ;
+    printf("Nhap vi tri muon danh : ");
+    while (1)
+    {
+      bzero(buff, MAX);
+
+      n = 0;
+      while ((buff[n++] = getchar()) != '\n')
+        ;
+
+      if (!isPositionExits(buff, pointBroad))
+        break;
+    }
 
     // and send that buffer to client
     write(sockfd, buff, sizeof(buff));
 
-    // if msg contains "Exit" then server exit and chat ended.
-    if (strncmp("exit", buff, 4) == 0)
-    {
-      printf("Server Exit...\n");
-      break;
-    }
+    updateBroad(buff, 2, pointBroad);
+    clear();
   }
 }
 

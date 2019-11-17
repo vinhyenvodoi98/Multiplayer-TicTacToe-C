@@ -10,29 +10,46 @@
 #include <unistd.h> // for close
 #include <sys/types.h>
 
+#include "UI.h"
+#include "clientP2P.h"
+
 #define MAX 80
 #define SA struct sockaddr
+#define clear() printf("\033[H\033[J")
 
 void joinPerson(int sockfd)
 {
+  pointBroad = (int *)calloc(9, sizeof(int));
+  for (int i = 0; i < 9; i++)
+    pointBroad[i] = 0;
+
   char buff[MAX];
   int n;
   for (;;)
   {
-    bzero(buff, sizeof(buff));
-    printf("Enter the string : ");
-    n = 0;
-    while ((buff[n++] = getchar()) != '\n')
-      ;
+    clear();
+    ingame(pointBroad);
+
+    printf("Nhap vi tri muon danh : ");
+
+    while (1)
+    {
+      bzero(buff, sizeof(buff));
+      n = 0;
+      while ((buff[n++] = getchar()) != '\n')
+        ;
+
+      if (!isPositionExits(buff, pointBroad))
+        break;
+    }
+    updateBroad(buff, 2, pointBroad);
+    clear();
+    ingame(pointBroad);
+
     write(sockfd, buff, sizeof(buff));
     bzero(buff, sizeof(buff));
     read(sockfd, buff, sizeof(buff));
-    printf("From Server : %s", buff);
-    if ((strncmp(buff, "exit", 4)) == 0)
-    {
-      printf("Client Exit...\n");
-      break;
-    }
+    updateBroad(buff, 1, pointBroad);
   }
 }
 

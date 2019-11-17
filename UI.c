@@ -52,7 +52,7 @@ void printXO(int XO)
   }
 }
 
-void broad(int broad[10])
+void playerBroad(int broad[10])
 {
   red();
   printf("            G-A-M-E           ");
@@ -111,7 +111,7 @@ void score()
 void ingame(int broadGame[])
 {
   nav("");
-  broad(broadGame);
+  playerBroad(broadGame);
   score();
 }
 
@@ -165,12 +165,33 @@ void loginMenu()
   printf("    (1-2, other to \033[1;34mquit\033[0m):\n");
 }
 
-// int main()
-// {
-//   int broad[9] = {2, 1, 2, 0, 1, 0, 0, 0, 0};
-//   ingame(broad);
-//   // info();
-//   // menu();
-//   return 0;
-// }
-// clear();
+int checkWinner(int broad[], int xo)
+{
+  // check-row
+  for (int i = 0; i < 3; i++)
+  {
+    if (broad[3 * i] == xo && broad[3 * i + 1] == xo && broad[3 * i + 2] == xo)
+    {
+      return 1;
+    }
+  }
+
+  // check-column
+  for (int i = 0; i < 3; i++)
+  {
+    if (broad[i] == xo && broad[3 + i] == xo && broad[6 + i] == xo)
+    {
+      return 1;
+    }
+  }
+
+  // check Left-to-Right downward Diagonal
+  if (broad[0] == xo && broad[4] == xo && broad[8] == xo)
+    return 1;
+
+  // Check Left-to-Right upward Diagonal
+  if (broad[2] == xo && broad[4] == xo && broad[6] == xo)
+    return 1;
+
+  return 0;
+}
