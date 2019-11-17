@@ -164,34 +164,3 @@ void loginMenu()
   printf("    (\033[1;31m2\033[0m) Dang ki\n\n");
   printf("    (1-2, other to \033[1;34mquit\033[0m):\n");
 }
-
-int checkWinner(int broad[], int xo)
-{
-  // check-row
-  for (int i = 0; i < 3; i++)
-  {
-    if (broad[3 * i] == xo && broad[3 * i + 1] == xo && broad[3 * i + 2] == xo)
-    {
-      return 1;
-    }
-  }
-
-  // check-column
-  for (int i = 0; i < 3; i++)
-  {
-    if (broad[i] == xo && broad[3 + i] == xo && broad[6 + i] == xo)
-    {
-      return 1;
-    }
-  }
-
-  // check Left-to-Right downward Diagonal
-  if (broad[0] == xo && broad[4] == xo && broad[8] == xo)
-    return 1;
-
-  // Check Left-to-Right upward Diagonal
-  if (broad[2] == xo && broad[4] == xo && broad[6] == xo)
-    return 1;
-
-  return 0;
-}

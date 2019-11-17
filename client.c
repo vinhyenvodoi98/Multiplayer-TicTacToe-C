@@ -7,7 +7,6 @@
 #include <netdb.h>
 #include <string.h>
 #include "UI.h"
-#include "gameClient.h"
 #include "clientP2P.h"
 #include "clientPeer1.h"
 #include "clientPeer2.h"
