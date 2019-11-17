@@ -19,10 +19,7 @@
 
 void joinPerson(int sockfd)
 {
-  pointBroad = (int *)calloc(9, sizeof(int));
-  for (int i = 0; i < 9; i++)
-    pointBroad[i] = 0;
-
+  strcpy(pointBroad, "000000000");
   char buff[MAX];
   int n;
   for (;;)
@@ -39,17 +36,17 @@ void joinPerson(int sockfd)
       while ((buff[n++] = getchar()) != '\n')
         ;
 
-      if (!isPositionExits(buff, pointBroad))
+      if (!isPositionExits(buff))
         break;
     }
-    updateBroad(buff, 2, pointBroad);
+    strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
 
     write(sockfd, buff, sizeof(buff));
     bzero(buff, sizeof(buff));
     read(sockfd, buff, sizeof(buff));
-    updateBroad(buff, 1, pointBroad);
+    strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
   }
 }
 

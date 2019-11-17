@@ -32,15 +32,15 @@ void nav(char name[])
   printf("+-----------------------------+-----------------------------+\n");
 }
 
-void printXO(int XO)
+void printXO(char XO)
 {
-  if (XO == 1)
+  if (XO == '1')
   {
     red();
     printf("O");
     reset();
   }
-  else if (XO == 2)
+  else if (XO == '2')
   {
     blue();
     printf("X");
@@ -52,7 +52,7 @@ void printXO(int XO)
   }
 }
 
-void playerBroad(int broad[10])
+void playerBroad(char broad[])
 {
   red();
   printf("            G-A-M-E           ");
@@ -108,7 +108,7 @@ void score()
   printf("+-----------------------------------------------------------+\n");
 }
 
-void ingame(int broadGame[])
+void ingame(char broadGame[])
 {
   nav("");
   playerBroad(broadGame);

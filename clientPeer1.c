@@ -16,9 +16,7 @@
 
 void hostPerson(int sockfd)
 {
-  pointBroad = (int *)calloc(9, sizeof(int));
-  for (int i = 0; i < 9; i++)
-    pointBroad[i] = 0;
+  strcpy(pointBroad, "000000000");
 
   char buff[MAX];
   int n;
@@ -32,7 +30,7 @@ void hostPerson(int sockfd)
     read(sockfd, buff, sizeof(buff));
     // print buffer which contains the client contents
 
-    updateBroad(buff, 1, pointBroad);
+    strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
 
@@ -46,14 +44,14 @@ void hostPerson(int sockfd)
       while ((buff[n++] = getchar()) != '\n')
         ;
 
-      if (!isPositionExits(buff, pointBroad))
+      if (!isPositionExits(buff))
         break;
     }
 
     // and send that buffer to client
     write(sockfd, buff, sizeof(buff));
 
-    updateBroad(buff, 2, pointBroad);
+    strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
     clear();
   }
 }
