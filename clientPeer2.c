@@ -42,11 +42,28 @@ void joinPerson(int sockfd)
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
-
     write(sockfd, buff, sizeof(buff));
+
+    if (checkWinner(pointBroad, '2'))
+    {
+      printf("Ban da chien thang !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
+
+    printf("Doi doi phuong danh ...");
     bzero(buff, sizeof(buff));
     read(sockfd, buff, sizeof(buff));
     strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
+
+    if (checkWinner(pointBroad, '1'))
+    {
+      printf("Ban da thua cuoc !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
   }
 }
 

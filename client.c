@@ -130,9 +130,9 @@ void normalgame(int sockfd)
   char buff[MAX], *ip_port, *ip, *cPort;
   bzero(&buff, sizeof(buff));
 
-  ip_port = (char *)malloc(80 * sizeof(char));
-  ip = (char *)malloc(20 * sizeof(char));
-  cPort = (char *)malloc(10 * sizeof(char));
+  ip_port = (char *)calloc(80, sizeof(char));
+  ip = (char *)calloc(20, sizeof(char));
+  cPort = (char *)calloc(10, sizeof(char));
 
   strcpy(ip_port, genPort());
   strcat(buff, "5");
@@ -148,14 +148,14 @@ void normalgame(int sockfd)
     strcpy(ip, return_ip(ip_port));
     strcpy(cPort, return_port(ip_port));
     iPort = atoi(cPort);
-    startP2P("127.0.0.1", iPort);
+    startP2P(ip, iPort);
   }
   else
   {
     strcat(ip, return_ip(buff));
     strcat(cPort, return_port(buff));
     iPort = atoi(cPort);
-    connectP2P("127.0.0.1", iPort);
+    connectP2P(ip, iPort);
   }
 }
 

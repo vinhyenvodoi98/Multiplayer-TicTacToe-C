@@ -8,6 +8,6 @@ char *return_ip(char ip_port[]);
 char *return_port(char ip_port[]);
 int isPositionExits(char location[]);
 char *updateBroad(char pointBroad[], char location[], char player);
-int checkWinner(int broad[], int xo);
+int checkWinner(char broad[], char xo);
 
 #endif

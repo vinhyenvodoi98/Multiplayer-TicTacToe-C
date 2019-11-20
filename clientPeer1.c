@@ -26,13 +26,20 @@ void hostPerson(int sockfd)
 
     ingame(pointBroad);
     // read the message from client and copy it in buffer
+    printf("Doi doi phuong danh ...");
     read(sockfd, buff, sizeof(buff));
     // print buffer which contains the client contents
-
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
 
+    if (checkWinner(pointBroad, '2'))
+    {
+      printf("Ban da thua cuoc !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
     // copy server message in the buffer
     printf("Nhap vi tri muon danh : ");
     while (1)
@@ -49,8 +56,14 @@ void hostPerson(int sockfd)
 
     // and send that buffer to client
     write(sockfd, buff, sizeof(buff));
-
     strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
+    if (checkWinner(pointBroad, '1'))
+    {
+      printf("Ban da chien thang !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
     clear();
   }
 }

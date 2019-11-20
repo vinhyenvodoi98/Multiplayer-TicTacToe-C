@@ -112,7 +112,7 @@ char *genPort()
 char *return_ip(char ip_port[])
 {
   char *IP;
-  IP = (char *)malloc(80 * sizeof(char));
+  IP = (char *)calloc(80, sizeof(char));
   for (int i = 0; i < strlen(ip_port); i++)
   {
     IP[i] = ip_port[i];
@@ -128,7 +128,7 @@ char *return_ip(char ip_port[])
 char *return_port(char ip_port[])
 {
   char *Post;
-  Post = (char *)malloc(80 * sizeof(char));
+  Post = (char *)calloc(80, sizeof(char));
   int check = 0, j = 0;
   for (int i = 0; i < strlen(ip_port); i++)
   {
@@ -200,7 +200,7 @@ char *updateBroad(char pointBroad[], char location[], char player)
   return (pointBroad);
 }
 
-int checkWinner(int broad[], int xo)
+int checkWinner(char broad[], char xo)
 {
   // check-row
   for (int i = 0; i < 3; i++)
