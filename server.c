@@ -17,6 +17,7 @@
 #define SA struct sockaddr
 
 char currentGame[MAX];
+char rankGame[MAX];
 
 int msg(int sockfd)
 {
@@ -110,6 +111,22 @@ int msg(int sockfd)
       {
         strcat(msg, currentGame);
         bzero(currentGame, MAX);
+      }
+    }
+    else if (buffer[0] == '6') // for create normal game
+    {
+      for (i = 0; i < strlen(buffer); i++)
+        buffer[i] = buffer[i + 1];
+
+      if (strlen(rankGame) == 0)
+      {
+        strcat(rankGame, buffer);
+        strcat(msg, "you are host game");
+      }
+      else
+      {
+        strcat(msg, rankGame);
+        bzero(rankGame, MAX);
       }
     }
 

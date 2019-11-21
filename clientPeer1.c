@@ -23,11 +23,13 @@ void hostPerson(int sockfd)
   for (;;)
   {
     bzero(buff, MAX);
+    clear();
 
     ingame(pointBroad);
+    printf("Doi doi phuong danh ...\n");
     // read the message from client and copy it in buffer
-    printf("Doi doi phuong danh ...");
     read(sockfd, buff, sizeof(buff));
+
     // print buffer which contains the client contents
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
@@ -64,7 +66,6 @@ void hostPerson(int sockfd)
       close(sockfd);
       break;
     }
-    clear();
   }
 }
 

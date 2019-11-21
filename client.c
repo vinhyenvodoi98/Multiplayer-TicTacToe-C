@@ -159,6 +159,41 @@ void normalgame(int sockfd)
   }
 }
 
+void rankgame(int sockfd)
+{
+  int a, iPort;
+  char buff[MAX], *ip_port, *ip, *cPort;
+  bzero(&buff, sizeof(buff));
+
+  ip_port = (char *)calloc(80, sizeof(char));
+  ip = (char *)calloc(20, sizeof(char));
+  cPort = (char *)calloc(10, sizeof(char));
+
+  strcpy(ip_port, genPort());
+  strcat(buff, "6");
+  strcat(buff, ip_port);
+
+  write(sockfd, buff, sizeof(buff));
+
+  bzero(buff, sizeof(buff));
+
+  read(sockfd, buff, sizeof(buff));
+  if (strcmp(buff, "you are host game") == 0)
+  {
+    strcpy(ip, return_ip(ip_port));
+    strcpy(cPort, return_port(ip_port));
+    iPort = atoi(cPort);
+    startP2P(ip, iPort);
+  }
+  else
+  {
+    strcat(ip, return_ip(buff));
+    strcat(cPort, return_port(buff));
+    iPort = atoi(cPort);
+    connectP2P(ip, iPort);
+  }
+}
+
 void gameScreen(int sockfd)
 {
   char d;
@@ -176,7 +211,7 @@ void gameScreen(int sockfd)
     if (d == '2')
     {
       scanf("%*c");
-      // normalgame(sockfd);
+      rankgame(sockfd);
     }
     if (d == '3')
     {

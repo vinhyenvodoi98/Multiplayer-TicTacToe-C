@@ -6,6 +6,8 @@ typedef struct node
   char username[20];
   char password[20];
   int status;
+  int win;
+  int lose;
   int loginTimeLeft;
   int isLogin;
   struct node *next;
@@ -17,7 +19,7 @@ int islogin;
 
 node *initLinkList();
 node *getAccount(char username[]);
-void addToLinkList(char username[], char password[], int status);
+void addToLinkList(char username[], char password[], int status, int win, int lose);
 void printfAllUser();
 int checkPassword(char username[], char password[]);
 int checkAccountExist(char username[]);

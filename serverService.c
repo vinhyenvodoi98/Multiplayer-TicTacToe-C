@@ -39,7 +39,7 @@ char *_signup(char username[20], char password[20])
   }
   else
   {
-    addToLinkList(username, password, 1);
+    addToLinkList(username, password, 1, 0, 0);
     account = getAccount(username);
     account->isLogin = 1;
     account->loginTimeLeft = 3;

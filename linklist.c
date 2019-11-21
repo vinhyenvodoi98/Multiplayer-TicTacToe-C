@@ -4,7 +4,7 @@
 
 #include "linklist.h"
 
-node *initLinkList(node *pre, char username[], char password[], int status)
+node *initLinkList(node *pre, char username[], char password[], int status, int win, int lose)
 {
   node *temp;
   temp = (node *)malloc(sizeof(node));
@@ -12,6 +12,8 @@ node *initLinkList(node *pre, char username[], char password[], int status)
   strcpy(temp->password, password);
   temp->loginTimeLeft = 3;
   temp->status = status;
+  temp->win = win;
+  temp->lose = lose;
   temp->next = NULL;
   temp->isLogin = 0;
 
@@ -44,7 +46,7 @@ node *getAccount(char username[])
   return account;
 }
 
-void addToLinkList(char username[], char password[], int status)
+void addToLinkList(char username[], char password[], int status, int win, int lose)
 {
   node *checkLast = first;
   node *temp;
@@ -53,6 +55,8 @@ void addToLinkList(char username[], char password[], int status)
   strcpy(temp->username, username);
   strcpy(temp->password, password);
   temp->status = status;
+  temp->win = win;
+  temp->lose = lose;
   temp->loginTimeLeft = 3;
   temp->isLogin = 0;
   temp->next = NULL;
@@ -109,7 +113,7 @@ void printfAllUser()
   temp = first;
   while (temp)
   {
-    printf("%s %s %d\n", temp->username, temp->password, temp->status);
+    printf("%s %s %d %d %d\n", temp->username, temp->password, temp->status, temp->win, temp->lose);
     temp = temp->next;
   }
 }

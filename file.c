@@ -9,7 +9,7 @@ node *first;
 FILE *f;
 char username[20];
 char password[20];
-int status;
+int status, win, lose;
 node *s1;
 
 void readFile()
@@ -24,9 +24,9 @@ void readFile()
   {
     while (1)
     {
-      if (fscanf(f, "%s %s %d", username, password, &status) == EOF)
+      if (fscanf(f, "%s %s %d %d %d", username, password, &status, &win, &lose) == EOF)
         break;
-      s1 = initLinkList(s1, username, password, status);
+      s1 = initLinkList(s1, username, password, status, win, lose);
     }
     fclose(f);
   }
@@ -40,7 +40,7 @@ void writeFile()
 
   while (temp)
   {
-    fprintf(f, "%s %s %d\n", temp->username, temp->password, temp->status);
+    fprintf(f, "%s %s %d %d %d\n", temp->username, temp->password, temp->status, temp->win, temp->lose);
     temp = temp->next;
   }
   fclose(f);

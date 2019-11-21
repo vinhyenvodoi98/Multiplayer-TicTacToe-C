@@ -52,8 +52,8 @@ void joinPerson(int sockfd)
       break;
     }
 
-    printf("Doi doi phuong danh ...");
     bzero(buff, sizeof(buff));
+    printf("Doi doi phuong danh ...\n");
     read(sockfd, buff, sizeof(buff));
     strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
 
