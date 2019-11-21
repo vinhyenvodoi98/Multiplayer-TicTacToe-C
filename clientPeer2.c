@@ -17,7 +17,7 @@
 #define SA struct sockaddr
 #define clear() printf("\033[H\033[J")
 
-void joinPerson(int sockfd)
+void joinPerson(int sockfd, int typeOfGame)
 {
   strcpy(pointBroad, "000000000");
   char buff[MAX];
@@ -67,7 +67,7 @@ void joinPerson(int sockfd)
   }
 }
 
-void connectP2P(char ip[], int PORT)
+void connectP2P(char ip[], int PORT, int typeOfGame)
 {
   int sockfd, connfd;
   struct sockaddr_in servaddr, cli;
@@ -97,7 +97,10 @@ void connectP2P(char ip[], int PORT)
   else
     printf("connected to the server..\n");
 
-  // function for chat
-  joinPerson(sockfd);
+  // Function for chatting between client and server
+  // typeOfGame ==1 -> nomarl game
+  // typeOfGame ==2 -> rank game
+  joinPerson(sockfd, typeOfGame);
+
   close(sockfd);
 }

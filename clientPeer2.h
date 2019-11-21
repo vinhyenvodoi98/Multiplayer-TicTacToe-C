@@ -1,6 +1,6 @@
 #ifndef __FILEPEER2_H__
 #define __FILEPEER2_H__
 
-void connectP2P(char ip[], int PORT);
+void connectP2P(char ip[], int PORT, int typeOfGame);
 
 #endif

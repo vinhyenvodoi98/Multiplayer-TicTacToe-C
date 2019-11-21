@@ -23,5 +23,6 @@ void addToLinkList(char username[], char password[], int status, int win, int lo
 void printfAllUser();
 int checkPassword(char username[], char password[]);
 int checkAccountExist(char username[]);
+void updateWinLose();
 
 #endif

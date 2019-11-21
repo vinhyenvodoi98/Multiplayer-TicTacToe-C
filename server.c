@@ -118,15 +118,40 @@ int msg(int sockfd)
       for (i = 0; i < strlen(buffer); i++)
         buffer[i] = buffer[i + 1];
 
-      if (strlen(rankGame) == 0)
+      if (buffer[0] == '~')
       {
-        strcat(rankGame, buffer);
-        strcat(msg, "you are host game");
+        for (i = 0; i < strlen(buffer); i++)
+          buffer[i] = buffer[i + 1];
+
+        if (buffer[0] == '1')
+        {
+          for (i = 0; i < strlen(buffer); i++)
+            buffer[i] = buffer[i + 1];
+
+          updateWinLose(1, buffer); //1 for win
+          strcat(msg, "update done");
+        }
+        else
+        {
+          for (i = 0; i < strlen(buffer); i++)
+            buffer[i] = buffer[i + 1];
+
+          updateWinLose(0, buffer); //0 for lose
+          strcat(msg, "update done");
+        }
       }
       else
       {
-        strcat(msg, rankGame);
-        bzero(rankGame, MAX);
+        if (strlen(rankGame) == 0)
+        {
+          strcat(rankGame, buffer);
+          strcat(msg, "you are host game");
+        }
+        else
+        {
+          strcat(msg, rankGame);
+          bzero(rankGame, MAX);
+        }
       }
     }
 

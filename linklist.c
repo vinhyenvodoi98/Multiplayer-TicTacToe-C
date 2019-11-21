@@ -107,6 +107,16 @@ int checkPassword(char username[], char password[])
   return isCorrect;
 }
 
+void updateWinLose(int isWin, char name[])
+{
+  node *account;
+  account = getAccount(name);
+  if (isWin)
+    account->win += 1;
+  else
+    account->lose += 1;
+}
+
 void printfAllUser()
 {
   node *temp;

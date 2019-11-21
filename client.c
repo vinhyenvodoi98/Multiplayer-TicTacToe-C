@@ -148,14 +148,14 @@ void normalgame(int sockfd)
     strcpy(ip, return_ip(ip_port));
     strcpy(cPort, return_port(ip_port));
     iPort = atoi(cPort);
-    startP2P(ip, iPort);
+    startP2P(ip, iPort, 1);
   }
   else
   {
     strcat(ip, return_ip(buff));
     strcat(cPort, return_port(buff));
     iPort = atoi(cPort);
-    connectP2P(ip, iPort);
+    connectP2P(ip, iPort, 1);
   }
 }
 
@@ -183,14 +183,14 @@ void rankgame(int sockfd)
     strcpy(ip, return_ip(ip_port));
     strcpy(cPort, return_port(ip_port));
     iPort = atoi(cPort);
-    startP2P(ip, iPort);
+    startP2P(ip, iPort, 2);
   }
   else
   {
     strcat(ip, return_ip(buff));
     strcat(cPort, return_port(buff));
     iPort = atoi(cPort);
-    connectP2P(ip, iPort);
+    connectP2P(ip, iPort, 2);
   }
 }
 
