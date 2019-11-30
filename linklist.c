@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "linklist.h"
+#include "file.h"
 
 node *initLinkList(node *pre, char username[], char password[], int status, int win, int lose)
 {
@@ -107,14 +108,15 @@ int checkPassword(char username[], char password[])
   return isCorrect;
 }
 
-void updateWinLose(int isWin, char name[])
+void updateWinLose(char WinName[], char LoseName[])
 {
   node *account;
-  account = getAccount(name);
-  if (isWin)
-    account->win += 1;
-  else
-    account->lose += 1;
+  account = getAccount(WinName);
+  account->win += 1;
+
+  account = getAccount(LoseName);
+  account->lose += 1;
+  writeFile();
 }
 
 void printfAllUser()

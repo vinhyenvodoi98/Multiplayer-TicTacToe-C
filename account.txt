@@ -1,5 +1,5 @@
-hoang 123456 1 0 0
+hoang 123456 1 0 1
 sieunhan xanh 1 0 0
 it4062 123456 1 0 0
-hehehe 123456 1 0 0
+hehehe 123456 1 1 0
 hoas 123456 1 0 0

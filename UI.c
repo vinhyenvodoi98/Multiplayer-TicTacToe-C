@@ -112,7 +112,7 @@ void ingame(char broadGame[])
 {
   nav("");
   playerBroad(broadGame);
-  score();
+  // score();
 }
 
 void gameMenu(char name[])
@@ -126,7 +126,7 @@ void gameMenu(char name[])
   printf(" ]\n\n");
   printf("    (\033[1;31m1\033[0m) Danh thuong\n");
   printf("    (\033[1;31m2\033[0m) Danh xep hang\n");
-  printf("    (\033[1;31m3\033[0m) Choi vs may\n\n");
+  printf("    (\033[1;31m3\033[0m) Xem thu hang\n\n");
 
   printf("    (\033[1;31m4\033[0m) Gioi thieu ve tro choi\n");
   printf("    (\033[1;31mq\033[0m) Quit\n");

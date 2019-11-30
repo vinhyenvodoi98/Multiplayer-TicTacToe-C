@@ -21,7 +21,7 @@ char rankGame[MAX];
 
 int msg(int sockfd)
 {
-  char buffer[MAX], number[MAX], charactor[MAX], msg[MAX], username[MAX], password[MAX];
+  char buffer[MAX], number[MAX], charactor[MAX], msg[MAX], username[MAX], password[MAX], win[MAX], lose[MAX];
 
   int n, i, j;
 
@@ -32,6 +32,8 @@ int msg(int sockfd)
   bzero(msg, MAX);
   bzero(username, MAX);
   bzero(password, MAX);
+  bzero(win, MAX);
+  bzero(lose, MAX);
   if (read(sockfd, buffer, sizeof(buffer)) != 0)
   {
     printf("From client: %s To client : ", buffer);
@@ -113,8 +115,10 @@ int msg(int sockfd)
         bzero(currentGame, MAX);
       }
     }
-    else if (buffer[0] == '6') // for create normal game
+    else if (buffer[0] == '6') // for create rank game
     {
+      printf("%s\n", buffer);
+
       for (i = 0; i < strlen(buffer); i++)
         buffer[i] = buffer[i + 1];
 
@@ -123,22 +127,23 @@ int msg(int sockfd)
         for (i = 0; i < strlen(buffer); i++)
           buffer[i] = buffer[i + 1];
 
-        if (buffer[0] == '1')
+        for (i = 0; i < strlen(buffer); i++)
         {
-          for (i = 0; i < strlen(buffer); i++)
-            buffer[i] = buffer[i + 1];
-
-          updateWinLose(1, buffer); //1 for win
-          strcat(msg, "update done");
+          if (buffer[i] == '~')
+            break;
+          win[i] = buffer[i];
         }
-        else
+
+        for (j = 0; j < strlen(buffer); j++)
         {
-          for (i = 0; i < strlen(buffer); i++)
-            buffer[i] = buffer[i + 1];
-
-          updateWinLose(0, buffer); //0 for lose
-          strcat(msg, "update done");
+          if (buffer[i] == '\n')
+            break;
+          lose[j] = buffer[i + 1];
+          i++;
         }
+        lose[j - 2] = '\0';
+        updateWinLose(win, lose);
+        strcat(msg, "update done");
       }
       else
       {

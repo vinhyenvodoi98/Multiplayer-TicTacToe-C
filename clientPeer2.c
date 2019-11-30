@@ -17,10 +17,10 @@
 #define SA struct sockaddr
 #define clear() printf("\033[H\033[J")
 
-void joinPerson(int sockfd, int typeOfGame)
+void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
 {
   strcpy(pointBroad, "000000000");
-  char buff[MAX];
+  char buff[MAX], msg[MAX];
   int n;
   for (;;)
   {
@@ -47,6 +47,20 @@ void joinPerson(int sockfd, int typeOfGame)
     if (checkWinner(pointBroad, '2'))
     {
       printf("Ban da chien thang !!!");
+      if (typeOfGame == 2)
+      {
+        bzero(buff, MAX);
+        bzero(msg, MAX);
+        read(sockfd, buff, sizeof(buff));
+        strcat(msg, "6~");
+        strcat(msg, name);
+        strcat(msg, "~");
+        strcat(msg, buff);
+        write(connectserver, msg, sizeof(msg));
+        read(connectserver, msg, sizeof(msg));
+        bzero(msg, MAX);
+        printf("%s", msg);
+      }
       getchar();
       close(sockfd);
       break;
@@ -60,6 +74,11 @@ void joinPerson(int sockfd, int typeOfGame)
     if (checkWinner(pointBroad, '1'))
     {
       printf("Ban da thua cuoc !!!");
+      if (typeOfGame == 2)
+      {
+        strcpy(buff, name);
+        write(sockfd, buff, sizeof(buff));
+      }
       getchar();
       close(sockfd);
       break;
@@ -67,7 +86,7 @@ void joinPerson(int sockfd, int typeOfGame)
   }
 }
 
-void connectP2P(char ip[], int PORT, int typeOfGame)
+void connectP2P(char ip[], int PORT, int typeOfGame, char name[], int connectserver)
 {
   int sockfd, connfd;
   struct sockaddr_in servaddr, cli;
@@ -100,7 +119,7 @@ void connectP2P(char ip[], int PORT, int typeOfGame)
   // Function for chatting between client and server
   // typeOfGame ==1 -> nomarl game
   // typeOfGame ==2 -> rank game
-  joinPerson(sockfd, typeOfGame);
+  joinPerson(sockfd, typeOfGame, name, connectserver);
 
   close(sockfd);
 }

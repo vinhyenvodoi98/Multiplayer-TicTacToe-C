@@ -148,18 +148,18 @@ void normalgame(int sockfd)
     strcpy(ip, return_ip(ip_port));
     strcpy(cPort, return_port(ip_port));
     iPort = atoi(cPort);
-    startP2P(ip, iPort, 1);
+    startP2P(ip, iPort, 1, name, sockfd);
   }
   else
   {
     strcat(ip, return_ip(buff));
     strcat(cPort, return_port(buff));
     iPort = atoi(cPort);
-    connectP2P(ip, iPort, 1);
+    connectP2P(ip, iPort, 1, name, sockfd);
   }
 }
 
-void rankgame(int sockfd)
+void rankgame(int sockfd, char name[])
 {
   int a, iPort;
   char buff[MAX], *ip_port, *ip, *cPort;
@@ -183,14 +183,14 @@ void rankgame(int sockfd)
     strcpy(ip, return_ip(ip_port));
     strcpy(cPort, return_port(ip_port));
     iPort = atoi(cPort);
-    startP2P(ip, iPort, 2);
+    startP2P(ip, iPort, 2, name, sockfd);
   }
   else
   {
     strcat(ip, return_ip(buff));
     strcat(cPort, return_port(buff));
     iPort = atoi(cPort);
-    connectP2P(ip, iPort, 2);
+    connectP2P(ip, iPort, 2, name, sockfd);
   }
 }
 
@@ -211,7 +211,7 @@ void gameScreen(int sockfd)
     if (d == '2')
     {
       scanf("%*c");
-      rankgame(sockfd);
+      rankgame(sockfd, name);
     }
     if (d == '3')
     {
