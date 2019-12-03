@@ -164,3 +164,24 @@ void loginMenu()
   printf("    (\033[1;31m2\033[0m) Dang ki\n\n");
   printf("    (1-2, other to \033[1;34mquit\033[0m):\n");
 }
+
+void rankNav()
+{
+  printf("+-----------------------------------------------------------+\n");
+  red();
+  printf("RANK\t");
+  reset();
+  red();
+  printf("PLAYER\t");
+  reset();
+  red();
+  printf("WIN\t");
+  reset();
+  red();
+  printf("LOSE\t");
+  reset();
+  red();
+  printf("WIN/LOSE\n");
+  reset();
+  printf("+-----------------------------------------------------------+\n");
+}

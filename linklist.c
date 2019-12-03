@@ -31,6 +31,56 @@ node *initLinkList(node *pre, char username[], char password[], int status, int 
   return pre;
 }
 
+rank *initRankList(rank *pre, char username[], int win, int lose)
+{
+  rank *temp, *temp1, *temp2;
+  temp = (rank *)malloc(sizeof(rank));
+  strcpy(temp->username, username);
+  temp->win = win;
+  temp->lose = lose;
+  if ((win + lose) != 0)
+    temp->wlradio = (float)win / (float)(win + lose);
+  else
+    temp->wlradio = 0;
+
+  if (rankfirst == NULL)
+  {
+    rankfirst = temp;
+    pre = rankfirst;
+    temp->next = NULL;
+  }
+  else
+  {
+    temp1 = rankfirst;
+    while (temp1)
+    {
+      if (temp->wlradio > temp1->wlradio)
+      {
+        if (temp1 == rankfirst)
+        {
+          temp->next = rankfirst;
+          rankfirst = temp;
+          break;
+        }
+        else
+        {
+          temp->next = temp2->next;
+          temp2->next = temp;
+          break;
+        }
+      }
+      temp2 = temp1;
+      if (temp1->next == NULL)
+      {
+        temp1->next = temp;
+        temp->next = NULL;
+        break;
+      }
+      temp1 = temp1->next;
+    }
+  }
+}
+
 node *getAccount(char username[])
 {
   node *account;
@@ -126,6 +176,17 @@ void printfAllUser()
   while (temp)
   {
     printf("%s %s %d %d %d\n", temp->username, temp->password, temp->status, temp->win, temp->lose);
+    temp = temp->next;
+  }
+}
+
+void printfRank()
+{
+  rank *temp;
+  temp = rankfirst;
+  while (temp)
+  {
+    printf("%s %d %d %f\n", temp->username, temp->win, temp->lose, temp->wlradio);
     temp = temp->next;
   }
 }

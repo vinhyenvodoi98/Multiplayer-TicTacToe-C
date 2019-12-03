@@ -194,6 +194,24 @@ void rankgame(int sockfd, char name[])
   }
 }
 
+void showRank(int sockfd, char name[])
+{
+  int a;
+  char buff[MAX], rank[500];
+  bzero(buff, sizeof(buff));
+  strcat(buff, "7");
+  strcat(buff, name);
+
+  write(sockfd, buff, sizeof(buff));
+
+  // bzero(buff, sizeof(buff));
+
+  read(sockfd, rank, sizeof(rank));
+  rankNav();
+  printf("%s", rank);
+  getchar();
+}
+
 void gameScreen(int sockfd)
 {
   char d;
@@ -216,7 +234,7 @@ void gameScreen(int sockfd)
     if (d == '3')
     {
       scanf("%*c");
-      // logout(sockfd);
+      showRank(sockfd, name);
     }
     if (d == '4')
     {

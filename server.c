@@ -23,7 +23,7 @@ int msg(int sockfd)
 {
   char buffer[MAX], number[MAX], charactor[MAX], msg[MAX], username[MAX], password[MAX], win[MAX], lose[MAX];
 
-  int n, i, j;
+  int n, i, j, sendlong = 0;
 
   // listen client
   bzero(buffer, MAX);
@@ -117,7 +117,7 @@ int msg(int sockfd)
     }
     else if (buffer[0] == '6') // for create rank game
     {
-      printf("%s\n", buffer);
+      // printf("%s\n", buffer);
 
       for (i = 0; i < strlen(buffer); i++)
         buffer[i] = buffer[i + 1];
@@ -159,8 +159,21 @@ int msg(int sockfd)
         }
       }
     }
+    else if (buffer[0] == '7')
+    {
+      char rank[500];
+      bzero(rank, 500);
+      for (i = 0; i < strlen(buffer); i++)
+        buffer[i] = buffer[i + 1];
 
-    write(sockfd, msg, sizeof(msg));
+      strcat(rank, _getRank(buffer));
+      printf("\n%s ", rank);
+      sendlong = 1;
+      write(sockfd, rank, sizeof(rank));
+    }
+    if (!sendlong)
+      write(sockfd, msg, sizeof(msg));
+    sendlong = 0;
     memset(msg, 0, sizeof(msg));
     return 1;
   }

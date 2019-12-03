@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "netdb.h": "c",
-    "clientpeer.h": "c"
+    "clientpeer.h": "c",
+    "typeinfo": "c"
   }
 }

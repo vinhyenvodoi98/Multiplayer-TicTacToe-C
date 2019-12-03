@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "file.h"
 
@@ -74,4 +75,49 @@ char *_lockAccount(char username[20])
   account->status = 0;
   writeFile();
   return ("Account is blocked");
+}
+
+char *_getRank(char name[])
+{
+  rank *s1, *ranktemp;
+  node *temp;
+  char *sendRank = (char *)calloc(500, sizeof(char));
+  char *str;
+  int i = 1;
+
+  temp = first;
+  while (temp)
+  {
+    s1 = initRankList(s1, temp->username, temp->win, temp->lose);
+    temp = temp->next;
+  }
+
+  ranktemp = rankfirst;
+
+  while (ranktemp)
+  {
+    str = (char *)calloc(3, sizeof(char));
+    sprintf(str, "%d", i);
+    strcat(sendRank, str);
+    strcat(sendRank, "\t");
+    strcat(sendRank, ranktemp->username);
+    strcat(sendRank, "\t");
+    str = (char *)calloc(3, sizeof(char));
+    sprintf(str, "%d", ranktemp->win);
+    strcat(sendRank, str);
+    strcat(sendRank, "\t");
+    str = (char *)calloc(3, sizeof(char));
+    sprintf(str, "%d", ranktemp->lose);
+    strcat(sendRank, str);
+    strcat(sendRank, "\t");
+    str = (char *)calloc(10, sizeof(char));
+    gcvt(ranktemp->wlradio, 10, str);
+    strcat(sendRank, str);
+    strcat(sendRank, "\n");
+    i++;
+    ranktemp = ranktemp->next;
+  }
+  rankfirst = NULL;
+
+  return sendRank;
 }
