@@ -17,9 +17,20 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
 {
   strcpy(pointBroad, "000000000");
 
-  char buff[MAX], msg[MAX];
+  char buff[MAX], msg[MAX], competitorName[MAX];
   int n;
-  // infinite loop for chat
+
+  bzero(buff, MAX);
+  bzero(competitorName, MAX);
+
+  if (typeOfGame == 2)
+  {
+    strcpy(buff, name);
+    write(sockfd, buff, sizeof(buff));
+    read(sockfd, competitorName, sizeof(competitorName));
+  }
+  // infinite loop for game
+
   for (;;)
   {
     bzero(buff, MAX);
@@ -39,11 +50,7 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     {
       bzero(buff, MAX);
       printf("Ban da thua cuoc !!!");
-      if (typeOfGame == 2)
-      {
-        strcpy(buff, name);
-        write(sockfd, buff, sizeof(buff));
-      }
+
       getchar();
       close(sockfd);
       break;
@@ -70,13 +77,11 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
       printf("Ban da chien thang !!!");
       if (typeOfGame == 2)
       {
-        bzero(buff, MAX);
         bzero(msg, MAX);
-        read(sockfd, buff, sizeof(buff));
         strcat(msg, "6~");
         strcat(msg, name);
         strcat(msg, "~");
-        strcat(msg, buff);
+        strcat(msg, competitorName);
 
         write(connectserver, msg, sizeof(msg));
         read(connectserver, msg, sizeof(msg));

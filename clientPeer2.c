@@ -20,8 +20,19 @@
 void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
 {
   strcpy(pointBroad, "000000000");
-  char buff[MAX], msg[MAX];
+  char buff[MAX], msg[MAX], competitorName[MAX];
   int n;
+
+  bzero(buff, MAX);
+  bzero(competitorName, MAX);
+
+  if (typeOfGame == 2)
+  {
+    strcpy(buff, name);
+    read(sockfd, competitorName, sizeof(competitorName));
+    write(sockfd, buff, sizeof(buff));
+  }
+
   for (;;)
   {
     clear();
@@ -49,13 +60,12 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
       printf("Ban da chien thang !!!");
       if (typeOfGame == 2)
       {
-        bzero(buff, MAX);
         bzero(msg, MAX);
-        read(sockfd, buff, sizeof(buff));
         strcat(msg, "6~");
         strcat(msg, name);
         strcat(msg, "~");
-        strcat(msg, buff);
+        strcat(msg, competitorName);
+
         write(connectserver, msg, sizeof(msg));
         read(connectserver, msg, sizeof(msg));
         bzero(msg, MAX);
@@ -74,11 +84,6 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     if (checkWinner(pointBroad, '1'))
     {
       printf("Ban da thua cuoc !!!");
-      if (typeOfGame == 2)
-      {
-        strcpy(buff, name);
-        write(sockfd, buff, sizeof(buff));
-      }
       getchar();
       close(sockfd);
       break;

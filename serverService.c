@@ -96,7 +96,11 @@ char *_getRank(char name[])
 
   while (ranktemp)
   {
+
     str = (char *)calloc(3, sizeof(char));
+    if (strcmp(name, ranktemp->username) == 0)
+      strcat(sendRank, "\033[1;33m");
+
     sprintf(str, "%d", i);
     strcat(sendRank, str);
     strcat(sendRank, "\t");
@@ -113,6 +117,10 @@ char *_getRank(char name[])
     str = (char *)calloc(10, sizeof(char));
     gcvt(ranktemp->wlradio, 10, str);
     strcat(sendRank, str);
+
+    if (strcmp(name, ranktemp->username) == 0)
+      strcat(sendRank, "\033[0m");
+
     strcat(sendRank, "\n");
     i++;
     ranktemp = ranktemp->next;
