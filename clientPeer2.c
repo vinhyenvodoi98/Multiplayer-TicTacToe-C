@@ -50,6 +50,11 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
       if (!isPositionExits(buff))
         break;
     }
+    if (strcmp(buff, "q\n") == 0)
+    {
+      close(sockfd);
+      break;
+    }
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
@@ -78,7 +83,27 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
 
     bzero(buff, sizeof(buff));
     printf("Doi doi phuong danh ...\n");
-    read(sockfd, buff, sizeof(buff));
+    if (read(sockfd, buff, sizeof(buff)) == 0)
+    {
+      if (typeOfGame == 2)
+      {
+        bzero(msg, MAX);
+        strcat(msg, "6~");
+        strcat(msg, name);
+        strcat(msg, "~");
+        strcat(msg, competitorName);
+
+        write(connectserver, msg, sizeof(msg));
+        read(connectserver, msg, sizeof(msg));
+
+        bzero(msg, MAX);
+        printf("%s", msg);
+      }
+      printf("\n Ban da chien thang do nguoi choi kia da bo cuoc !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
     strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
 
     if (checkWinner(pointBroad, '1'))

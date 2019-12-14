@@ -39,7 +39,27 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     ingame(pointBroad);
     printf("Doi doi phuong danh ...\n");
     // read the message from client and copy it in buffer
-    read(sockfd, buff, sizeof(buff));
+    if (read(sockfd, buff, sizeof(buff)) == 0)
+    {
+      if (typeOfGame == 2)
+      {
+        bzero(msg, MAX);
+        strcat(msg, "6~");
+        strcat(msg, name);
+        strcat(msg, "~");
+        strcat(msg, competitorName);
+
+        write(connectserver, msg, sizeof(msg));
+        read(connectserver, msg, sizeof(msg));
+
+        bzero(msg, MAX);
+        printf("%s", msg);
+      }
+      printf("\n Ban da chien thang do nguoi choi kia da bo cuoc !!!");
+      getchar();
+      close(sockfd);
+      break;
+    }
 
     // print buffer which contains the client contents
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
@@ -69,6 +89,11 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
         break;
     }
 
+    if (strcmp(buff, "q\n") == 0)
+    {
+      close(sockfd);
+      break;
+    }
     // and send that buffer to client
     write(sockfd, buff, sizeof(buff));
     strcpy(pointBroad, updateBroad(pointBroad, buff, '1'));
@@ -133,7 +158,7 @@ void startP2P(char ip[], int PORT, int typeOfGame, char name[], int connectserve
     exit(0);
   }
   else
-    printf("Server listening..\n");
+    printf("Waiting another player ...\n");
   len = sizeof(cli);
 
   // Accept the data packet from client and verification

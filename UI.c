@@ -142,7 +142,8 @@ void info(char name[])
   printf("co the choi vs cac ban cua minh thong qua internet (su dung \n");
   printf("ket noi TCP/IP). Tat ca nhung gi ban phai lam la tao 1  \n");
   printf("room moi nguoi se tham gia room cua ban. Hoac ban co the \n");
-  printf("tham gia room cua nguoi khac de bat dau tro choi.\n\n");
+  printf("tham gia room cua nguoi khac de bat dau tro choi.\n");
+  printf("neu trong luc choi ban muon thoat hay nhan phim q. \n\n");
   blue();
   printf("TicTacToe beta-1.0\n\n");
   reset();
