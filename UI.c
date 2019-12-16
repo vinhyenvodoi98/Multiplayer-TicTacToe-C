@@ -88,23 +88,22 @@ void playerBroad(char broad[])
   printf("             |   |            |             |    |           \n");
 }
 
-void score()
+void score(char name1[], char name2[])
 {
-  char name1[20] = "Do Hoang", name2[20] = "Tran Dan";
-  int score1 = 1, score2 = 0;
   printf("+-----------------------------+-----------------------------+\n");
-  printf("|");
   red();
-  printf(" Score:");
+  printf(" Match: ");
   reset();
   blue();
   printf(" %s", name1);
   reset();
-  printf(" %d,", score1);
+  yellow();
+  printf(" vs");
+  reset();
   blue();
   printf(" %s", name2);
   reset();
-  printf(" %d.                            |\n", score2);
+  printf(".                               \n");
   printf("+-----------------------------------------------------------+\n");
 }
 

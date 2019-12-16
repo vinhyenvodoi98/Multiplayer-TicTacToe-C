@@ -37,6 +37,8 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
   {
     clear();
     ingame(pointBroad);
+    if (typeOfGame == 2)
+      score(name, competitorName);
 
     printf("Nhap vi tri muon danh : ");
 
@@ -58,6 +60,8 @@ void joinPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
+    if (typeOfGame == 2)
+      score(name, competitorName);
     write(sockfd, buff, sizeof(buff));
 
     if (checkWinner(pointBroad, '2'))

@@ -37,6 +37,8 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     clear();
 
     ingame(pointBroad);
+    if (typeOfGame == 2)
+      score(name, competitorName);
     printf("Doi doi phuong danh ...\n");
     // read the message from client and copy it in buffer
     if (read(sockfd, buff, sizeof(buff)) == 0)
@@ -65,6 +67,8 @@ void hostPerson(int sockfd, int typeOfGame, char name[], int connectserver)
     strcpy(pointBroad, updateBroad(pointBroad, buff, '2'));
     clear();
     ingame(pointBroad);
+    if (typeOfGame == 2)
+      score(name, competitorName);
 
     if (checkWinner(pointBroad, '2'))
     {
