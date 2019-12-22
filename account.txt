@@ -3,3 +3,4 @@ sieubom xanh 1 5 4
 it4062 123456 1 0 4
 hehehe 123456 1 3 6
 hoas 123456 1 2 4
+tuna 123 1 0 0

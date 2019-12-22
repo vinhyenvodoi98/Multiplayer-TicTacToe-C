@@ -3,46 +3,16 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <sys/socket.h>
-#include <stdlib.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <fcntl.h>  // for open
 #include <unistd.h> // for close
 #include <sys/types.h>
 #include "clientP2P.h"
+#include <ifaddrs.h>
 
 #define MAX 80
 #define SA struct sockaddr
-
-void checkHostName(int hostname)
-{
-  if (hostname == -1)
-  {
-    perror("gethostname");
-    exit(1);
-  }
-}
-
-// Returns host information corresponding to host name
-void checkHostEntry(struct hostent *hostentry)
-{
-  if (hostentry == NULL)
-  {
-    perror("gethostbyname");
-    exit(1);
-  }
-}
-
-// Converts space-delimited IPv4 addresses
-// to dotted-decimal format
-void checkIPbuffer(char *IPbuffer)
-{
-  if (NULL == IPbuffer)
-  {
-    perror("inet_ntoa");
-    exit(1);
-  }
-}
 
 // --------------------------------------------------------
 
@@ -50,12 +20,14 @@ char *genPort()
 {
   struct sockaddr_in servaddr;
   struct hostent *host_entry;
+  struct ifaddrs *ifaddr, *ifa;
+  int family, s;
+  char host[NI_MAXHOST];
   int sockfd;
   char port[8];
 
   char hostbuffer[256];
   char *IPbuffer;
-  int hostname;
 
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1)
@@ -90,19 +62,28 @@ char *genPort()
   sprintf(port, "%d", ntohs(servaddr.sin_port));
   close(sockfd);
 
-  // To retrieve hostname
-  hostname = gethostname(hostbuffer, sizeof(hostbuffer));
-  checkHostName(hostname);
+  if (getifaddrs(&ifaddr) == -1)
+  {
+    perror("getifaddrs");
+    exit(EXIT_FAILURE);
+  }
 
-  // To retrieve host information
-  host_entry = gethostbyname(hostbuffer);
-  checkHostEntry(host_entry);
+  for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+  {
+    if (ifa->ifa_addr == NULL)
+      continue;
 
-  // To convert an Internet network
-  // address into ASCII string
-  IPbuffer = inet_ntoa(*((struct in_addr *)
-                             host_entry->h_addr_list[0]));
-
+    s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+    if ((strcmp(ifa->ifa_name, "wlan0") == 0) && (ifa->ifa_addr->sa_family == AF_INET))
+    {
+      if (s != 0)
+      {
+        printf("getnameinfo() failed: %s\n", gai_strerror(s));
+        exit(EXIT_FAILURE);
+      }
+      strcpy(IPbuffer, host);
+    }
+  }
   strcat(IPbuffer, "~");
   strcat(IPbuffer, port);
 
