@@ -143,11 +143,12 @@ void normalgame(int sockfd)
   bzero(buff, sizeof(buff));
 
   read(sockfd, buff, sizeof(buff));
-  if (strcmp(buff, "you are host game") == 0)
+  if (buff[0] == 'h')
   {
-    strcpy(ip, return_ip(ip_port));
-    strcpy(cPort, return_port(ip_port));
-    iPort = atoi(cPort);
+    for (int i = 0; i < strlen(buff); i++)
+      buff[i] = buff[i + 1];
+    strcpy(ip, buff);
+    iPort = atoi(ip_port);
     startP2P(ip, iPort, 1, name, sockfd);
   }
   else
@@ -178,11 +179,12 @@ void rankgame(int sockfd, char name[])
   bzero(buff, sizeof(buff));
 
   read(sockfd, buff, sizeof(buff));
-  if (strcmp(buff, "you are host game") == 0)
+  if (buff[0] == 'h')
   {
-    strcpy(ip, return_ip(ip_port));
-    strcpy(cPort, return_port(ip_port));
-    iPort = atoi(cPort);
+    for (int i = 0; i < strlen(buff); i++)
+      buff[i] = buff[i + 1];
+    strcpy(ip, buff);
+    iPort = atoi(ip_port);
     startP2P(ip, iPort, 2, name, sockfd);
   }
   else

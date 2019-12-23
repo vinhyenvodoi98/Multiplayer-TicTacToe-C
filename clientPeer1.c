@@ -146,6 +146,8 @@ void startP2P(char ip[], int PORT, int typeOfGame, char name[], int connectserve
   servaddr.sin_addr.s_addr = inet_addr(ip);
   servaddr.sin_port = htons(PORT);
 
+  printf("ip port: %s:%d___", ip, PORT);
+
   // Binding newly created socket to given IP and verification
   if ((bind(sockfd, (SA *)&servaddr, sizeof(servaddr))) != 0)
   {

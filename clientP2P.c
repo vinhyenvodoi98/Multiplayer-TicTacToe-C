@@ -54,7 +54,7 @@ char *genPort()
   char port[8];
 
   char hostbuffer[256];
-  char *IPbuffer;
+  char *IPbuffer, *Port = (char *)calloc(20, sizeof(char));
   int hostname;
 
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -103,10 +103,12 @@ char *genPort()
   IPbuffer = inet_ntoa(*((struct in_addr *)
                              host_entry->h_addr_list[0]));
 
-  strcat(IPbuffer, "~");
-  strcat(IPbuffer, port);
+  // strcat(IPbuffer, "~");
+  // strcat(IPbuffer, port);
 
-  return (IPbuffer);
+  strcat(Port, port);
+
+  return (Port);
 }
 
 char *return_ip(char ip_port[])

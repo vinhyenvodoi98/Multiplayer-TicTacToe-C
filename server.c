@@ -19,7 +19,7 @@
 char currentGame[MAX];
 char rankGame[MAX];
 
-int msg(int sockfd)
+int msg(int sockfd, char ip[])
 {
   char buffer[MAX], number[MAX], charactor[MAX], msg[MAX], username[MAX], password[MAX], win[MAX], lose[MAX];
 
@@ -106,8 +106,12 @@ int msg(int sockfd)
 
       if (strlen(currentGame) == 0)
       {
+        strcat(currentGame, ip);
+        strcat(currentGame, "~");
         strcat(currentGame, buffer);
-        strcat(msg, "you are host game");
+        printf("ip %s\n", currentGame);
+        strcat(msg, "h");
+        strcat(msg, ip);
       }
       else
       {
@@ -149,8 +153,12 @@ int msg(int sockfd)
       {
         if (strlen(rankGame) == 0)
         {
+          strcat(rankGame, ip);
+          strcat(rankGame, "~");
           strcat(rankGame, buffer);
-          strcat(msg, "you are host game");
+          printf("ip %s\n", rankGame);
+          strcat(msg, "h");
+          strcat(msg, ip);
         }
         else
         {
@@ -331,7 +339,7 @@ int main(int argc, char *argv[])
 
       if (FD_ISSET(sd, &readfds))
       {
-        if (msg(sd) == 0)
+        if (msg(sd, inet_ntoa(address.sin_addr)) == 0)
         {
           getpeername(sd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
           printf("\nHost disconnected , ip %s , port %d \n",

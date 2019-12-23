@@ -141,6 +141,12 @@ void connectP2P(char ip[], int PORT, int typeOfGame, char name[], int connectser
   servaddr.sin_addr.s_addr = inet_addr(ip);
   servaddr.sin_port = htons(PORT);
 
+  // while (1)
+  // {
+  /* code */
+  printf("ip port %s:%d___\n", ip, PORT);
+  // }
+
   // connect the client socket to server socket
   if (connect(sockfd, (SA *)&servaddr, sizeof(servaddr)) != 0)
   {
